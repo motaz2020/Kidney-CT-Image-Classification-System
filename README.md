@@ -1,88 +1,170 @@
-# Kidney-CT-Image-Classification-System
+# Kidney CT Image Classification System
 
-## 📌 Project Overview
+> An end-to-end deep learning system for automated kidney CT scan classification, leveraging ResNet50 transfer learning and FastAPI deployment to support computer-aided diagnosis (CAD).
 
-This project presents a multi-class medical image classification system for automated analysis of kidney CT scans.
-The model classifies kidney images into four clinical categories:
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
+![Medical AI](https://img.shields.io/badge/Medical-AI-success)
 
-Normal
+---
 
-Cyst
+# Overview
 
-Tumor
+This project presents an end-to-end medical image classification pipeline for automatically identifying kidney conditions from CT scans. The system classifies images into four clinically relevant categories:
 
-Stone
+- Normal
+- Cyst
+- Tumor
+- Stone
 
-The goal is to support computer-aided diagnosis (CAD) by leveraging deep learning techniques to enhance the accuracy and efficiency of kidney disease detection from CT imagery.
+Built on a pretrained **ResNet50** backbone, the model applies transfer learning to achieve high classification accuracy while minimizing training time and overfitting. A lightweight **FastAPI** service exposes the trained model through a REST API for real-time inference.
 
-Medical image classification using CNNs is a well-established approach in radiology and diagnostic support systems.
+---
 
-## 🧠 System Pipeline
+# Features
 
-The project implements a complete computer vision and deep learning workflow, including:
+- Four-class kidney CT image classification
+- Transfer Learning with ResNet50
+- End-to-end PyTorch training pipeline
+- Medical image preprocessing & augmentation
+- FastAPI inference service
+- Confusion matrix and performance visualization
+- Modular project structure
+- Production-ready REST API
 
-Data preprocessing
+---
 
-Image resizing and normalization
+# System Architecture
 
-Noise handling and contrast consistency
+```
+Kidney CT Image
+        │
+Preprocessing
+(Resize • Normalize • Augmentation)
+        │
+PyTorch DataLoader
+        │
+ResNet50 Backbone (Frozen)
+        │
+Classification Head
+        │
+Prediction
+(Normal • Cyst • Tumor • Stone)
+        │
+FastAPI REST API
+```
 
-Data augmentation
+---
 
-Rotation, flipping, zooming, and shifting
+# Dataset
 
-To reduce overfitting and improve generalization
+The project uses a public Kidney CT Scan dataset containing four diagnostic categories.
 
-Modeling
+| Class | Description |
+|--------|-------------|
+| Normal | Healthy kidney |
+| Cyst | Fluid-filled cyst |
+| Tumor | Kidney tumor |
+| Stone | Kidney stone |
 
-Custom CNN architectures
+The dataset is organized using the standard **ImageFolder** directory structure for PyTorch.
 
-Transfer Learning models (pretrained CNN backbones)
+---
 
-Training & Evaluation
+# Training Pipeline
 
-Multi-class classification
+The complete workflow includes:
 
-Validation accuracy tracking
+- Image preprocessing
+- Dataset normalization
+- Data augmentation
+- Transfer Learning
+- Model optimization
+- Validation
+- Model checkpointing
+- Performance evaluation
 
-Confusion matrix and performance metrics
+---
 
-Inference
+# Model
 
-Predicting kidney condition from unseen CT scans
+Backbone:
 
-## 📊 Results
+- ResNet50 (ImageNet pretrained)
 
-Achieved approximately 95% validation accuracy on multi-class classification.
+Training Configuration:
 
-Demonstrated strong separability between kidney disease categories.
+- CrossEntropyLoss
+- Adam Optimizer
+- Batch Size = 32
+- Input Resolution = 224×224
+- Frozen feature extractor
+- Fine-tuned classification head
 
-Transfer learning models showed faster convergence and higher stability compared to training from scratch.
+---
 
-Deep learning has been shown to outperform traditional methods in kidney CT image analysis tasks.
+# Inference API
 
-## 🛠️ Technologies Used
+The trained model is deployed using FastAPI.
 
-Programming Language: Python
+```
+POST /predict
+```
 
-Deep Learning: TensorFlow, Keras
+Input:
 
-Image Processing: OpenCV, Pillow
+```
+Kidney CT Image
+```
 
-Data Handling: NumPy, Pandas
+Output:
 
-Visualization: Matplotlib, Seaborn
+```json
+{
+  "prediction": "Tumor"
+}
+```
 
-## 🧬 Dataset
+---
 
-The project is based on a public Kidney CT Scan Image Dataset containing labeled samples of:
+# Results
 
-Normal kidneys
+- ~95% Validation Accuracy
+- Stable transfer learning convergence
+- Strong class separability across four kidney conditions
+- Faster convergence compared to training from scratch
 
-Kidney cysts
+---
 
-Kidney tumors
+# Technologies
 
-Kidney stones
+- Python
+- PyTorch
+- Torchvision
+- FastAPI
+- NumPy
+- Pillow
+- Matplotlib
+- Scikit-learn
 
-Public kidney CT datasets are widely used in medical AI research and benchmarking.
+---
+
+# Repository Structure
+
+```
+Kidney-CT-Image-Classification-System
+│
+├── app
+│   └── app.py
+│
+├── src
+│   ├── data_loader.py
+│   ├── preprocess.py
+│   ├── model.py
+│   └── train.py
+│
+├── notebooks
+├── outputs
+├── requirements.txt
+└── README.md
